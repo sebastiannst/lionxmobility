@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   VARIABLES: COLOR PALETTE
+   ========================================================================== */
+:root {
+  /* — Basic Colors — */
+  --color-primary:       #ef4444; /* red-500 */
+  --color-secondary:     #3b82f6; /* blue-500 */
+  --color-success:       #10b981; /* emerald-500 */
+  --color-danger:        #dc2626; /* red-600 */
+  --color-warning:       #f59e0b; /* amber-500 */
+  --color-info:          #6366f1; /* indigo-500 */
+  --color-light:         #f4f4f5; /* zinc-100 */
+  --color-dark:          #1f2937; /* gray-800 */
+
+  /* — Pastel Colors — */
+  --color-pastel-pink:   #ffd6e0;
+  --color-pastel-blue:   #dbeafe;
+  --color-pastel-green:  #d1fae5;
+  --color-pastel-purple: #ede9fe;
+
+  /* — Metallic Accents — */
+  --color-metal-gold:    #d4af37;
+  --color-metal-silver:  #c0c0c0;
+  --color-metal-bronze:  #cd7f32;
+}
+
+/* ==========================================================================
+   UTILITIES: BACKGROUNDS / TEXT / BORDERS
+   ========================================================================== */
+/* Backgrounds */
+.bg-primary       { background-color: var(--color-primary)    !important; }
+.bg-secondary     { background-color: var(--color-secondary)  !important; }
+.bg-success       { background-color: var(--color-success)    !important; }
+.bg-danger        { background-color: var(--color-danger)     !important; }
+.bg-warning       { background-color: var(--color-warning)    !important; }
+.bg-info          { background-color: var(--color-info)       !important; }
+.bg-light         { background-color: var(--color-light)      !important; }
+.bg-dark          { background-color: var(--color-dark)       !important; }
+
+.bg-pastel-pink   { background-color: var(--color-pastel-pink)   !important; }
+.bg-pastel-blue   { background-color: var(--color-pastel-blue)   !important; }
+.bg-pastel-green  { background-color: var(--color-pastel-green)  !important; }
+.bg-pastel-purple { background-color: var(--color-pastel-purple) !important; }
+
+.bg-metal-gold    { background-color: var(--color-metal-gold)    !important; }
+.bg-metal-silver  { background-color: var(--color-metal-silver)  !important; }
+.bg-metal-bronze  { background-color: var(--color-metal-bronze)  !important; }
+
+/* Text Colors */
+.text-primary     { color: var(--color-primary)    !important; }
+.text-secondary   { color: var(--color-secondary)  !important; }
+.text-success     { color: var(--color-success)    !important; }
+.text-danger      { color: var(--color-danger)     !important; }
+.text-warning     { color: var(--color-warning)    !important; }
+.text-info        { color: var(--color-info)       !important; }
+.text-light       { color: var(--color-light)      !important; }
+.text-dark        { color: var(--color-dark)       !important; }
+
+/* Borders */
+.border-primary   { border-color: var(--color-primary)   !important; }
+.border-secondary { border-color: var(--color-secondary) !important; }
+.border-success   { border-color: var(--color-success)   !important; }
+.border-danger    { border-color: var(--color-danger)    !important; }
+.border-warning   { border-color: var(--color-warning)   !important; }
+.border-info      { border-color: var(--color-info)      !important; }
+
+/* ==========================================================================
+   TRANSITIONS & DURATION UTILITIES
+   ========================================================================== */
+.transition-fast  { transition: all .2s ease-in-out !important; }
+.transition-med   { transition: all .5s ease-in-out !important; }
+.transition-slow  { transition: all 1s ease-in-out   !important; }
+
+/* ==========================================================================
+   ANIMATIONS: KEYFRAMES + CLASSES
+   ========================================================================== */
+/* Fade In */
+@keyframes fade-in {
+  from { opacity: 0; } to { opacity: 1; }
+}
+.fade-in { animation: fade-in .6s ease-out forwards; }
+
+/* Slide Up */
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.slide-up { animation: slide-up .5s ease-out forwards; }
+
+/* Scale In */
+@keyframes scale-in {
+  from { transform: scale(.95); }
+  to   { transform: scale(1);    }
+}
+.scale-in { animation: scale-in .4s ease-in-out forwards; }
+
+/* Pulse */
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+.pulse { animation: pulse 1.2s ease-in-out infinite; }
+
+/* Hover Scale */
+.hover-scale:hover {
+  transform: scale(1.05);
+  transition: transform .3s ease-in-out;
+}
+
+/* ==========================================================================
+   COMPONENT EXAMPLES
+   ========================================================================== */
+/* Buttons */
+.btn {
+  @apply inline-block font-semibold text-white rounded-full shadow-lg transition-fast;
+}
+.btn-primary   { @apply bg-primary hover:bg-primary/90; }
+.btn-secondary { @apply bg-secondary hover:bg-secondary/90; }
+.btn-warning   { @apply bg-warning hover:bg-warning/90; }
+
+/* Cards */
+.card {
+  @apply bg-light dark:bg-dark rounded-xl p-6 shadow-lg transition-med;
+}
+.card-hover:hover {
+  @apply shadow-2xl -translate-y-1;
+}

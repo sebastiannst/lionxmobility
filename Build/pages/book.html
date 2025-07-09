@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi-Step Booking | LionxMobility</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fef3c7;
+      color: #374151;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      padding: 1rem;
+      background-color: #fde68a;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header img {
+      width: 100px; /* Adjust the size as needed */
+      cursor: pointer;
+    }
+    nav a {
+      font-size: 1rem;
+      color: #1f2937;
+      text-decoration: none;
+      transition: color 0.3s ease, background-color 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+    }
+    nav a:hover {
+      color: white;
+      background-color: #f59e0b;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .step {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .step.active {
+      display: block;
+      opacity: 1;
+    }
+    .buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .buttons button {
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: #f59e0b;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .buttons button:hover {
+      background: #d97706;
+    }
+    .buttons button:disabled {
+      background: #ddd;
+      cursor: not-allowed;
+    }
+    .confirmation {
+      text-align: center;
+      padding: 2rem;
+      background: #d1fae5;
+      border-radius: 1rem;
+      display: none;
+      animation: fadeIn 1s ease-in-out;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      transition: border-color 0.3s ease;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #f59e0b;
+      outline: none;
+    }
+    .progress {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .progress div {
+      width: 30%;
+      height: 5px;
+      background: #ddd;
+      border-radius: 5px;
+    }
+    .progress div.active {
+      background: #f59e0b;
+    }
+    .summary {
+      text-align: left;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <a href="../index.html" aria-label="Go to Home Page">
+      <img src="../assets/images/shuttle.png" alt="Shuttle for group and business transport" />
+        </a>
+
+    <nav class="hidden sm:flex space-x-6 text-lg" aria-label="Main Navigation">
+      <a href="#rentals">Rentals</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+  </header>
+
+  <div class="container">
+    <h2>Book Your Ride</h2>
+      <div class="progress">
+        <div class="active"></div>
+          <div></div>
+            <div></div>
+              <div></div>
+    </div>
+
+    <form id="bookingForm">
+      <div class="step active" id="step1">
+        <label>Full Name</label>
+          <input type="text" id="name" required />
+            <label>Email Address</label>
+              <input type="email" id="email" required />
+      </div>
+      
+      <div class="step" id="step2">
+        <label>Rental Type</label>
+          <select id="rentalType" required>
+            <option value="">Select Rental Type</option>
+              <option value="Scooter">Scooter</option>
+                <option value="UrbanMover">UrbanMover</option>
+                  <option value="Ride+">Ride+</option>
+          </select>
+        
+      <div id="equipmentInfo" style="display:none;">
+          <strong>Optional Add-ons:</strong>
+            <div id="equipmentList" style="margin-top: 0.5rem;"></div>
+        </div>
+
+      <label>Pickup Date</label>
+        <input type="date" id="date" required />
+      </div>
+
+      <div class="step" id="step3">
+        <label>Additional Notes</label>
+          <textarea id="notes" placeholder="Any special requests?"></textarea>
+            <p>Click Next to review your booking.</p>
+      </div>
+
+      <div class="step" id="step4">
+        <h3>Review Your Booking</h3>
+          <div class="summary">
+            <p><strong>Full Name:</strong> <span id="summaryName"></span></p>
+              <p><strong>Email Address:</strong> <span id="summaryEmail"></span></p>
+                <p><strong>Rental Type:</strong> <span id="summaryRentalType"></span></p>
+                  <p><strong>Pickup Date:</strong> <span id="summaryDate"></span></p>
+                    <p><strong>Additional Notes:</strong> <span id="summaryNotes"></span></p>
+        </div>
+
+        <p>Click Submit to confirm your booking.</p>
+      </div>
+
+      <div class="buttons">
+        <button type="button" id="prevBtn" onclick="nextPrev(-1)" disabled>Back</button>
+          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      </div>
+
+    </form>
+
+    <div class="confirmation" id="confirmation">
+      <h3>✅ Booking Successful!</h3>
+        <p>Thank you for booking with LionxMobility.</p>
+          <p>Redirecting to Ride+ page...</p>
+    </div>
+
+  </div>
+
+  <script>
+    const steps = document.querySelectorAll(".step");
+      const progress = document.querySelectorAll(".progress div");
+        let currentStep = 0;
+
+          function showStep(n) {
+              steps.forEach((step, i) => {
+                  step.classList.toggle("active", i === n);
+                });
+
+                  progress.forEach((prog, i) => {
+                    prog.classList.toggle("active", i <= n);
+                  });
+
+                document.getElementById("prevBtn").disabled = n === 0;
+                document.getElementById("nextBtn").textContent = n === steps.length - 1 ? "Submit" : "Next";
+              }
+
+    function nextPrev(n) {
+      if (n === 1 && !validateForm()) return;
+      currentStep += n;
+      if (currentStep >= steps.length) {
+        document.getElementById("bookingForm").style.display = "none";
+        document.getElementById("confirmation").style.display = "block";
+        setTimeout(() => {
+          window.location.href = "ride.html";
+        }, 5000);
+        return;
+      }
+      if (currentStep === steps.length - 1) {
+        fillSummary();
+      }
+      showStep(currentStep);
+    }
+
+    function validateForm() {
+      const inputs = steps[currentStep].querySelectorAll("input, select");
+      for (let input of inputs) {
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function fillSummary() {
+      document.getElementById("summaryName").textContent = document.getElementById("name").value;
+      document.getElementById("summaryEmail").textContent = document.getElementById("email").value;
+      document.getElementById("summaryRentalType").textContent = document.getElementById("rentalType").value;
+      document.getElementById("summaryDate").textContent = document.getElementById("date").value;
+      document.getElementById("summaryNotes").textContent = document.getElementById("notes").value;
+    }
+    showStep(currentStep);
+    const equipmentData = {
+      "Scooter": ["Helmet", "Phone Mount", "Charger", "Lock"],
+      "UrbanMover": ["Driver Included", "Wi-Fi", "Air Conditioning", "Luggage Space"],
+      "Ride+": ["Helmet", "Phone Mount", "Power Bank", "Commuter Kit"]
+    };
+    const rentalTypeSelect = document.getElementById('rentalType');
+    const equipmentInfo = document.getElementById('equipmentInfo');
+    const equipmentList = document.getElementById('equipmentList');
+    rentalTypeSelect.addEventListener('change', function () {
+      const selected = this.value;
+      if (equipmentData[selected]) {
+        equipmentInfo.style.display = 'block';
+        equipmentList.innerHTML = '';
+        equipmentData[selected].forEach(item => {
+          const div = document.createElement('div');
+          div.textContent = item;
+          equipmentList.appendChild(div);
+        });
+      } else {
+        equipmentInfo.style.display = 'none';
+        equipmentList.innerHTML = '';
+      }
+    });
+  </script>
+ </body>
+ </html>
